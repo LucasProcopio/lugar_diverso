@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
       date: DataTypes.DATE,
       location: DataTypes.TEXT,
       about: DataTypes.TEXT,
-      image: DataTypes.STRING
+      image: DataTypes.STRING,
+      available: DataTypes.BOOLEAN
     },
     {}
   )

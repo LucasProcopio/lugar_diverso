@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       text: DataTypes.TEXT,
       accepted: DataTypes.BOOLEAN
     },
-    {}
+    {
+      freezeTableName: true,
+      tableName: 'Poesia'
+    }
   )
   Poesia.associate = function (models) {
     // associations can be defined here

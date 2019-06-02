@@ -6,7 +6,10 @@ module.exports = (sequelize, DataTypes) => {
       history: DataTypes.STRING,
       join_desc: DataTypes.STRING
     },
-    {}
+    {
+      freezeTableName: true,
+      tableName: 'About'
+    }
   )
   About.associate = function (models) {
     // associations can be defined here

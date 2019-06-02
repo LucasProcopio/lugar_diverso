@@ -1,53 +1,28 @@
-module.exports = (app, db) => {
+const about = require('../controllers/about')
+
+module.exports = routes => {
   /**
    * Obtem todos os dados da tabela sobre
    */
-  app.get('/about', (req, res) => {
-    db.About.findAll().then(result => res.json(result))
-  })
+  routes.get('/about', about.fechAll)
 
   /**
    * Obtem dados da tabela sobre pelo ID
    */
-  app.get('/about/:id', (req, res) => {
-    db.About.findById(req.params.id).then(result => res.json(result))
-  })
+  routes.get('/about/:id', about.fetchById)
 
   /**
    * Insere os dados na tabela sobre
    */
-  app.post('/about', (req, res) => {
-    db.About.create({
-      history: req.body.history,
-      join_desc: req.body.join_desc
-    }).then(result => res.json(result))
-  })
+  routes.post('/about', about.create)
 
   /**
    * Atualiza os dados da tabela sobre pelo ID
    */
-  app.put('/about/:id', (req, res) => {
-    db.About.update(
-      {
-        history: req.body.history,
-        join_desc: req.body.join_desc
-      },
-      {
-        where: {
-          id: req.params.id
-        }
-      }
-    ).then(result => res.json(result))
-  })
+  routes.put('/about/:id', about.update)
 
   /**
    * Deleta os dados ta tabela sobre pelo ID
    */
-  app.delete('/about/:id', (req, res) => {
-    db.About.destroy({
-      where: {
-        id: req.params.id
-      }
-    }).then(result => res.json(result))
-  })
+  routes.delete('/about/:id', about.delete)
 }
