@@ -1,9 +1,11 @@
 const express = require('express')
 
+const aboutApi = require('./app/api/about')
+const AdminApi = require('./app/api/admin')
+
 const routes = express.Router()
 
-routes.get('/', (req, res) => {
-  res.json('hello world')
-})
+aboutApi(routes)
+AdminApi(routes)
 
 module.exports = routes

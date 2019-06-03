@@ -1,5 +1,4 @@
 const express = require('express')
-const path = require('path')
 
 class App {
   constructor () {
@@ -10,7 +9,10 @@ class App {
     this.routes()
   }
 
-  middlewares () {}
+  middlewares () {
+    // express body parser
+    this.express.use(express.json())
+  }
 
   routes () {
     this.express.use(require('./routes'))
