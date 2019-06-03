@@ -1,16 +1,19 @@
 const db = require('../models')
 const bcrypt = require('bcrypt')
+const { check, validationResult } = require('express-validator/check')
 // TODO: json token authentication
 
 module.exports.create = (req, res) => {
-  // validate admin data here
-  // validate all data to create new admins
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() })
+  }
+
   const hash = bcrypt.hashSync(req.body.password, 10)
   db.Admin.create({
     email: req.body.email,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    username: req.body.username,
     password: hash
   }).then(result => res.json(result))
 }
@@ -25,7 +28,6 @@ module.exports.update = (req, res) => {
       email: req.body.email,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      username: req.body.username,
       password: hash
     },
     {
@@ -41,3 +43,10 @@ module.exports.fecthAll = (req, res) => {
     attributes: ['firstname', 'lastname']
   }).then(result => res.json(result))
 }
+
+module.exports.validate = [
+  check('firstName').isAlpha(),
+  check('lastName').isAlpha(),
+  check('email').isEmail(),
+  check('password').isLength({ min: 6 })
+]
