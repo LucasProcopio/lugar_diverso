@@ -14,12 +14,12 @@ module.exports = routes => {
   /**
    * Insere os dados na tabela sobre
    */
-  routes.post('/about', about.create)
+  routes.post('/about', about.validate, about.create)
 
   /**
    * Atualiza os dados da tabela sobre pelo ID
    */
-  routes.put('/about/:id', about.update)
+  routes.put('/about/:id', about.validate, about.update)
 
   /**
    * Deleta os dados ta tabela sobre pelo ID
