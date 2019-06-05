@@ -15,6 +15,7 @@
     "express-validator": "^5.3.1",
     "mysql2": "^1.6.5",
     "sequelize": "^5.8.5",
+    "uuid": "^3.3.2",
     "validator": "^11.0.0"
   },
   "devDependencies": {
