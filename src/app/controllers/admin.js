@@ -56,13 +56,18 @@ let fields = [
   check('firstName')
     .not()
     .isEmpty()
+    .trim()
+    .escape()
     .withMessage('O nome não pode ser em branco.'),
   check('lastName')
     .not()
     .isEmpty()
+    .trim()
+    .escape()
     .withMessage('O sobrenome não pode ser em branco.'),
   check('email')
     .isEmail()
+    .normalizeEmail()
     .withMessage('E-mail inválido.'),
   check('password')
     .isLength({ min: 6 })

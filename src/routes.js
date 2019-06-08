@@ -1,11 +1,13 @@
 const express = require('express')
 
 const aboutApi = require('./app/api/about')
-const AdminApi = require('./app/api/admin')
+const adminApi = require('./app/api/admin')
+const poemApi = require('./app/api/poesia')
 
 const routes = express.Router()
 
 aboutApi(routes)
-AdminApi(routes)
+adminApi(routes)
+poemApi(routes)
 
 module.exports = routes
