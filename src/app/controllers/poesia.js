@@ -39,11 +39,25 @@ module.exports.accept = (req, res) => {
 }
 
 module.exports.fetchAccepted = (req, res) => {
-  db.Poesia.findAll({
+  const limit = 6
+  let offset = 0
+  db.Poesia.findAndCountAll({
     where: {
       accepted: true
     }
-  }).then(result => res.json(result))
+  }).then(result => {
+    const page = req.params.page
+    const pages = Math.ceil(result.count / limit)
+    offset = limit * (page - 1)
+
+    db.Poesia.findAll({
+      attributes: ['title', 'text', 'author', 'image', 'website', 'email'],
+      limit: limit,
+      offset: offset
+    }).then(poems =>
+      res.json({ results: poems, count: result.count, pages: pages })
+    )
+  })
 }
 
 module.exports.fetchNotAccepted = (req, res) => {
@@ -53,8 +67,6 @@ module.exports.fetchNotAccepted = (req, res) => {
     }
   }).then(result => res.json(result))
 }
-
-// TODO: pagination of poesias
 
 module.exports.delete = (req, res) => {
   db.Poesia.destroy({

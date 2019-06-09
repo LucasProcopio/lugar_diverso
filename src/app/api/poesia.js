@@ -2,9 +2,9 @@ const poesia = require('../controllers/poesia')
 
 module.exports = routes => {
   /**
-   * Get accepted poems
+   * Get paginated accepted poems
    */
-  routes.get('/poems', poesia.fetchAccepted)
+  routes.get('/poems/:page', poesia.fetchAccepted)
 
   /**
    * Get not accepted poems
