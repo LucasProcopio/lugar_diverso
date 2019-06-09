@@ -1,7 +1,12 @@
 const db = require('../models')
+const { check, validationResult } = require('express-validator/check')
 
 module.exports.create = (req, res) => {
-  // TODO: validate all data
+  const error = validationResult(req)
+  if (!error.isEmpty()) {
+    return res.status(422).json({ errors: error.array() })
+  }
+
   db.About.create({
     history: req.body.history,
     join_desc: req.body.join_desc
@@ -17,7 +22,11 @@ module.exports.fetchById = (req, res) => {
 }
 
 module.exports.update = (req, res) => {
-  // TODO: validate all data
+  const error = validationResult(req)
+  if (!error.isEmpty()) {
+    return res.status(422).json({ errors: error.array() })
+  }
+
   db.About.update(
     {
       history: req.body.history,
@@ -38,3 +47,16 @@ module.exports.delete = (req, res) => {
     }
   }).then(result => res.json(result))
 }
+
+let fields = [
+  check('history')
+    .not()
+    .isEmpty()
+    .withMessage('O campo História não pode ser em branco'),
+  check('join_desc')
+    .not()
+    .isEmpty()
+    .withMessage('O campo como participar não pode ser em branco')
+]
+
+module.exports.validate = fields

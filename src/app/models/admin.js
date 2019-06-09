@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Admin = sequelize.define(
     'Admin',
     {
+      uuid: DataTypes.STRING,
       email: DataTypes.STRING,
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,

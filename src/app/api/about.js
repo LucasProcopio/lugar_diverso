@@ -2,24 +2,24 @@ const about = require('../controllers/about')
 
 module.exports = routes => {
   /**
-   * Obtem todos os dados da tabela sobre
+   * fetch all about data
    */
   routes.get('/about', about.fechAll)
 
   /**
-   * Obtem dados da tabela sobre pelo ID
+   * fetch data by ID
    */
   routes.get('/about/:id', about.fetchById)
 
   /**
-   * Insere os dados na tabela sobre
+   * Insert data
    */
-  routes.post('/about', about.create)
+  routes.post('/about', about.validate, about.create)
 
   /**
-   * Atualiza os dados da tabela sobre pelo ID
+   * Update about data by ID
    */
-  routes.put('/about/:id', about.update)
+  routes.put('/about/:id', about.validate, about.update)
 
   /**
    * Deleta os dados ta tabela sobre pelo ID

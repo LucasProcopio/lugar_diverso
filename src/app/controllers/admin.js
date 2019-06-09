@@ -40,7 +40,7 @@ module.exports.update = (req, res) => {
     },
     {
       where: {
-        id: req.body.uuid
+        uuid: req.body.uuid
       }
     }
   ).then(result => res.json(result))
@@ -48,19 +48,26 @@ module.exports.update = (req, res) => {
 
 module.exports.fecthAll = (req, res) => {
   db.Admin.findAll({
-    attributes: ['firstname', 'lastname']
+    attributes: ['uuid', 'firstname', 'lastname']
   }).then(result => res.json(result))
 }
 
 let fields = [
   check('firstName')
-    .isAlpha()
+    .not()
+    .isEmpty()
+    .trim()
+    .escape()
     .withMessage('O nome não pode ser em branco.'),
   check('lastName')
-    .isAlpha()
+    .not()
+    .isEmpty()
+    .trim()
+    .escape()
     .withMessage('O sobrenome não pode ser em branco.'),
   check('email')
     .isEmail()
+    .normalizeEmail()
     .withMessage('E-mail inválido.'),
   check('password')
     .isLength({ min: 6 })

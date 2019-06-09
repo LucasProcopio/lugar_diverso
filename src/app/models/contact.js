@@ -1,6 +1,7 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
   const Contact = sequelize.define(
+    // TODO create, get , uptade contact api
     'Contact',
     {
       phone: DataTypes.INTEGER,
