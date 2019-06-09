@@ -1,6 +1,6 @@
 const db = require('../models')
 const { check, validationResult } = require('express-validator/check')
-
+const stripTags = require('../helpers')
 module.exports.create = (req, res) => {
   const errors = validationResult(req)
 
@@ -8,14 +8,19 @@ module.exports.create = (req, res) => {
     return res.status(422).json({ error: errors.array() })
   }
 
+  const author = stripTags(req.body.author)
+  const title = stripTags(req.body.title)
+  const text = stripTags(req.body.text)
+  const website = stripTags(req.body.website)
+
   db.Poesia.create({
     image: req.body.image,
     email: req.body.email,
     phone: req.body.phone,
-    website: req.body.website,
-    author: req.body.author,
-    title: req.body.title,
-    text: req.body.text,
+    website: website,
+    author: author,
+    title: title,
+    text: text,
     accepted: false
   }).then(result => res.json(result))
 }
@@ -30,7 +35,7 @@ module.exports.accept = (req, res) => {
         id: req.params.id
       }
     }
-  )
+  ).then(result => res.json(result))
 }
 
 module.exports.fetchAccepted = (req, res) => {
