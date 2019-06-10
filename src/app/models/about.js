@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   )
   About.associate = function (models) {
     // associations can be defined here
-    About.hasOne(models.Contact)
+    // About.hasOne(models.Contact)
   }
   return About
 }

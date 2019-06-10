@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   )
   Contact.associate = function (models) {
     // associations can be defined here
-    Contact.belongsTo(models.About)
+    // Contact.belongsTo(models.About)
   }
   return Contact
 }
