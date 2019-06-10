@@ -1,1 +1,1 @@
-module.exports = string => string.replace(/(<([^>]+)>)/, '')
+module.exports.stripTags = string => string.replace(/(<([^>]+)>)/, '')

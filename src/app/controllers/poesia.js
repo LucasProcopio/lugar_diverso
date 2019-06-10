@@ -1,6 +1,7 @@
 const db = require('../models')
 const { check, validationResult } = require('express-validator/check')
-const stripTags = require('../helpers')
+const helper = require('../helpers')
+
 module.exports.create = (req, res) => {
   const errors = validationResult(req)
 
@@ -8,10 +9,10 @@ module.exports.create = (req, res) => {
     return res.status(422).json({ error: errors.array() })
   }
 
-  const author = stripTags(req.body.author)
-  const title = stripTags(req.body.title)
-  const text = stripTags(req.body.text)
-  const website = stripTags(req.body.website)
+  const author = helper.stripTags(req.body.author)
+  const title = helper.stripTags(req.body.title)
+  const text = helper.stripTags(req.body.text)
+  const website = helper.stripTags(req.body.website)
 
   db.Poesia.create({
     image: req.body.image,
