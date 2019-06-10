@@ -1,5 +1,6 @@
 const db = require('../models')
 const { check, validationResult } = require('express-validator/check')
+const helper = require('../helpers')
 
 module.exports.create = (req, res) => {
   const errors = validationResult(req)
@@ -8,10 +9,16 @@ module.exports.create = (req, res) => {
     return res.status(422).json({ errors: errors.array() })
   }
 
+  const isDate = helper.isDate(req.body.date)
+
+  if (!isDate) {
+    return res.json({ errors: [{ msg: 'Data inválida' }] })
+  }
+
   db.Event.create({
     title: req.body.title,
     about: req.body.about,
-    date: req.body.data,
+    date: req.body.date,
     location: req.body.location,
     image: req.body.image,
     available: true
@@ -25,11 +32,17 @@ module.exports.update = (req, res) => {
     return res.status(422).json({ errors: errors.array() })
   }
 
+  const isDate = helper.isDate(req.body.date)
+
+  if (!isDate) {
+    return res.json({ errors: [{ msg: 'Data inválida' }] })
+  }
+
   db.Event.update(
     {
       title: req.body.title,
       about: req.body.about,
-      date: req.body.data,
+      date: req.body.date,
       location: req.body.location,
       image: req.body.image,
       available: req.body.available
@@ -63,9 +76,11 @@ module.exports.fetchEvents = (req, res) => {
     offset = limit * (page - 1)
 
     db.Event.findAll({
-      attributes: ['title', 'about', 'date', 'location', 'image'],
       limit: limit,
-      offset: offset
+      offset: offset,
+      where: {
+        available: true
+      }
     }).then(events =>
       res.json({ events: events, count: result.count, pages: pages })
     )
@@ -91,14 +106,13 @@ let fields = [
     .not()
     .isEmpty()
     .trim()
-    .escape()
     .withMessage('O campo sobre não pode ser em branco'),
   check('date')
     .not()
     .isEmpty()
     .trim()
     .escape()
-    .withMessage('O campo de data não pode estar em branco'),
+    .withMessage('Data inválida'),
   check('location')
     .not()
     .isEmpty()
