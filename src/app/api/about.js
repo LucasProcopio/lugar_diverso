@@ -19,7 +19,7 @@ module.exports = routes => {
   /**
    * Update about data by ID
    */
-  routes.put('/about/:id', about.validate, about.update)
+  routes.post('/about/:id', about.validate, about.update)
 
   /**
    * Deleta os dados ta tabela sobre pelo ID
