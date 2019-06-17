@@ -55,12 +55,11 @@ module.exports.fetchContact = (req, res) => {
 
 const fields = [
   check('phone')
-    .isNumeric()
+    .not()
+    .isEmpty()
     .trim()
     .escape()
-    .withMessage(
-      'O campo telefone não pode estar em branco e deve conter apenas numeros.'
-    ),
+    .withMessage('O campo telefone não pode estar vazio'),
   check('address')
     .not()
     .isEmpty()
