@@ -1,6 +1,6 @@
 const express = require('express')
 require('dotenv/config')
-
+const fileupload = require('express-fileupload')
 class App {
   constructor () {
     this.express = express()
@@ -13,6 +13,10 @@ class App {
   middlewares () {
     // express body parser
     this.express.use(express.json())
+    this.express.use(express.static('public'))
+
+    // file upload
+    this.express.use(fileupload())
 
     // Add headers
     this.express.use(function (req, res, next) {

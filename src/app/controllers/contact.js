@@ -61,17 +61,11 @@ const fields = [
     .escape()
     .withMessage('O campo telefone não pode estar vazio'),
   check('address')
-    .not()
-    .isEmpty()
     .trim()
-    .escape()
-    .withMessage('O campo de endereço não pode estar vazio'),
+    .escape(),
   check('city')
-    .not()
-    .isEmpty()
     .trim()
-    .escape()
-    .withMessage('O campo cidade não pode estar vazio'),
+    .escape(),
   check('email')
     .isEmail()
     .trim()

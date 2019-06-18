@@ -9,17 +9,17 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       phone: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       address: {
-        allowNull: false,
         type: Sequelize.TEXT
       },
       city: {
-        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       facebook: {

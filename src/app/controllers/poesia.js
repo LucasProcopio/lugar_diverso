@@ -1,7 +1,7 @@
 const db = require('../models')
 const { check, validationResult } = require('express-validator/check')
 const helper = require('../helpers')
-
+const uuidv1 = require('uuid/v1')
 module.exports.create = (req, res) => {
   const errors = validationResult(req)
 
@@ -13,9 +13,20 @@ module.exports.create = (req, res) => {
   const title = helper.stripTags(req.body.title)
   const text = helper.stripTags(req.body.text)
   const website = helper.stripTags(req.body.website)
+  const uuid = uuidv1()
+
+  const imageFile = req.files.image
+  const uploadPath = `${__dirname}/../../../public/images/${uuid}.jpg`
+  const imagePath = `${req.protocol}://${req.headers.host}/images/${uuid}.jpg`
+
+  imageFile.mv(uploadPath, function (err) {
+    if (err) {
+      return res.status(500).send('IMAGE ERROR'.err)
+    }
+  })
 
   db.Poesia.create({
-    image: req.body.image,
+    image: imagePath,
     email: req.body.email,
     phone: req.body.phone,
     website: website,
@@ -84,10 +95,9 @@ let fields = [
     .normalizeEmail()
     .withMessage('E-mail inválido.'),
   check('phone')
-    .isNumeric()
     .trim()
     .escape()
-    .withMessage('O telefone deve conter somente numeros.'),
+    .withMessage('O telefone não pode ser em branco'),
   check('author')
     .not()
     .isEmpty()
