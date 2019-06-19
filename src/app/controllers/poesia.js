@@ -17,30 +17,26 @@ module.exports.create = (req, res) => {
   const text = helper.stripTags(req.body.text)
   const website = helper.stripTags(req.body.website)
   const uuid = uuidv1()
+  let webPath = ''
 
-  const imageFile = req.files.image
-  const imageName = `${uuid}.jpg`
-  const imagePublicPath = `${__dirname}/../../../public/images/`
-  const webPath = `${req.protocol}://${req.headers.host}/images/${imageName}`
+  if (req.files !== null) {
+    const imageFile = req.files.image
+    const imageName = `${uuid}.jpg`
+    const imagePublicPath = `${__dirname}/../../../public/images/`
+    webPath = `${req.protocol}://${req.headers.host}/images/${imageName}`
 
-  imageFile.mv(`${imagePublicPath}${imageName}`, function (err) {
-    if (err) {
-      return res.status(500).send('IMAGE ERROR'.err)
-    }
+    imageFile.mv(`${imagePublicPath}${imageName}`, function (err) {
+      if (err) {
+        return res.status(500).send('IMAGE ERROR'.err)
+      }
 
-    ;(async () => {
-      const files = await imagemin(
-        [`${imagePublicPath}${imageName}`],
-        imagePublicPath,
-        {
-          plugins: [imageminMozjpeg({ quality: 65 })]
-        }
-      )
-
-      console.log(files)
-      //= > [{data: <Buffer 89 50 4e …>, path: 'build/images/foo.jpg'}, …]
-    })()
-  })
+      ;(async () => {
+        await imagemin([`${imagePublicPath}${imageName}`], imagePublicPath, {
+          plugins: [imageminMozjpeg({ quality: 50 })]
+        })
+      })()
+    })
+  }
 
   db.Poesia.create({
     image: webPath,
