@@ -2,6 +2,9 @@ const db = require('../models')
 const { check, validationResult } = require('express-validator/check')
 const helper = require('../helpers')
 const uuidv1 = require('uuid/v1')
+const imagemin = require('imagemin')
+const imageminMozjpeg = require('imagemin-mozjpeg')
+
 module.exports.create = (req, res) => {
   const errors = validationResult(req)
 
@@ -16,17 +19,31 @@ module.exports.create = (req, res) => {
   const uuid = uuidv1()
 
   const imageFile = req.files.image
-  const uploadPath = `${__dirname}/../../../public/images/${uuid}.jpg`
-  const imagePath = `${req.protocol}://${req.headers.host}/images/${uuid}.jpg`
+  const imageName = `${uuid}.jpg`
+  const imagePublicPath = `${__dirname}/../../../public/images/`
+  const webPath = `${req.protocol}://${req.headers.host}/images/${imageName}`
 
-  imageFile.mv(uploadPath, function (err) {
+  imageFile.mv(`${imagePublicPath}${imageName}`, function (err) {
     if (err) {
       return res.status(500).send('IMAGE ERROR'.err)
     }
+
+    ;(async () => {
+      const files = await imagemin(
+        [`${imagePublicPath}${imageName}`],
+        imagePublicPath,
+        {
+          plugins: [imageminMozjpeg({ quality: 65 })]
+        }
+      )
+
+      console.log(files)
+      //= > [{data: <Buffer 89 50 4e …>, path: 'build/images/foo.jpg'}, …]
+    })()
   })
 
   db.Poesia.create({
-    image: imagePath,
+    image: webPath,
     email: req.body.email,
     phone: req.body.phone,
     website: website,
