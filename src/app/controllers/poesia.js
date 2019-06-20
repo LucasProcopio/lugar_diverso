@@ -78,7 +78,11 @@ module.exports.fetchAccepted = (req, res) => {
     db.Poesia.findAll({
       attributes: ['title', 'text', 'author', 'image', 'website', 'email'],
       limit: limit,
-      offset: offset
+      offset: offset,
+      where: {
+        accepted: true
+      },
+      order: [['id', 'DESC']]
     }).then(poems =>
       res.json({ results: poems, count: result.count, pages: pages })
     )
@@ -89,7 +93,8 @@ module.exports.fetchNotAccepted = (req, res) => {
   db.Poesia.findAll({
     where: {
       accepted: false
-    }
+    },
+    order: [['id', 'DESC']]
   }).then(result => res.json(result))
 }
 
