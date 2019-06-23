@@ -1,5 +1,6 @@
 const express = require('express')
 require('dotenv/config')
+const cookieParser = require('cookie-parser')
 const fileupload = require('express-fileupload')
 class App {
   constructor () {
@@ -16,6 +17,9 @@ class App {
 
     // file upload
     this.express.use(fileupload())
+
+    // cookie parser
+    this.express.use(cookieParser())
 
     // Add headers
     this.express.use(function (req, res, next) {
