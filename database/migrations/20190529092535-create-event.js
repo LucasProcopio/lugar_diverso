@@ -14,7 +14,11 @@ module.exports = {
       },
       date: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.STRING
+      },
+      time: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
       location: {
         allowNull: false,
@@ -25,6 +29,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       image: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       available: {

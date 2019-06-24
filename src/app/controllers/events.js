@@ -1,6 +1,9 @@
 const db = require('../models')
 const { check, validationResult } = require('express-validator/check')
 const helper = require('../helpers')
+const imagemin = require('imagemin')
+const imageminMozjpeg = require('imagemin-mozjpeg')
+const uuidv1 = require('uuid/v1')
 
 module.exports.create = (req, res) => {
   const errors = validationResult(req)
@@ -9,18 +12,37 @@ module.exports.create = (req, res) => {
     return res.status(422).json({ errors: errors.array() })
   }
 
-  const isDate = helper.isDate(req.body.date)
+  const uuid = uuidv1()
+  let webPath = ''
 
-  if (!isDate) {
-    return res.json({ errors: [{ msg: 'Data inválida' }] })
+  if (req.files !== null) {
+    const imageFile = req.files.image
+    const imageName = `${uuid}.jpg`
+    const imagePublicPath = `${__dirname}/../../../public/images/`
+    webPath = `${req.protocol}://${req.headers.host}/images/${imageName}`
+
+    imageFile.mv(`${imagePublicPath}${imageName}`, function (err) {
+      if (err) {
+        return res.status(500).send('IMAGE ERROR'.err)
+      }
+
+      ;(async () => {
+        await imagemin([`${imagePublicPath}${imageName}`], imagePublicPath, {
+          plugins: [imageminMozjpeg({ quality: 50 })]
+        })
+      })()
+    })
   }
+
+  console.log(webPath)
 
   db.Event.create({
     title: req.body.title,
     about: req.body.about,
     date: req.body.date,
     location: req.body.location,
-    image: req.body.image,
+    image: webPath,
+    time: req.body.time,
     available: true
   }).then(result => res.json(result))
 }
@@ -111,20 +133,18 @@ let fields = [
     .not()
     .isEmpty()
     .trim()
-    .escape()
     .withMessage('Data inválida'),
+  check('time')
+    .not()
+    .isEmpty()
+    .trim()
+    .withMessage('Horário inválido'),
   check('location')
     .not()
     .isEmpty()
     .trim()
     .escape()
-    .withMessage('O campo local não pode estar em branco'),
-  check('image')
-    .not()
-    .isEmpty()
-    .trim()
-    .escape()
-    .withMessage('A imagem deve ser enviada')
+    .withMessage('O campo local não pode estar em branco')
 ]
 
 const fieldsUpdate = fields.concat(fields, [
