@@ -9,7 +9,7 @@ module.exports = routes => {
   /**
    * Get not accepted poems
    */
-  routes.get('/accept/poems', poesia.fetchNotAccepted)
+  routes.get('/accept/poems/:page', poesia.fetchNotAccepted)
 
   /**
    * Delete not accepted poems

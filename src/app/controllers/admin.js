@@ -4,7 +4,6 @@ const uuidv1 = require('uuid/v1')
 const jwt = require('jsonwebtoken')
 
 const { check, validationResult } = require('express-validator/check')
-// TODO: json token authentication
 
 module.exports.create = (req, res) => {
   const errors = validationResult(req)
@@ -93,7 +92,12 @@ module.exports.auth = (req, res) => {
             process.env.SECRET_KEY,
             { expiresIn: '1h' }
           )
-
+          // const adminData = {
+          //   email: result[0].dataValues.email,
+          //   firstname: result[0].dataValues.firstname,
+          //   lastname: result[0].dataValues.lastname,
+          //   token: token
+          // }
           res
             .cookie('lugardiverso', token, { httpOnly: true })
             .status(200)

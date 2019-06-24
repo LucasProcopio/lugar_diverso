@@ -76,7 +76,15 @@ module.exports.fetchAccepted = (req, res) => {
     offset = limit * (page - 1)
 
     db.Poesia.findAll({
-      attributes: ['title', 'text', 'author', 'image', 'website', 'email'],
+      attributes: [
+        'id',
+        'title',
+        'text',
+        'author',
+        'image',
+        'website',
+        'email'
+      ],
       limit: limit,
       offset: offset,
       where: {
@@ -90,12 +98,37 @@ module.exports.fetchAccepted = (req, res) => {
 }
 
 module.exports.fetchNotAccepted = (req, res) => {
-  db.Poesia.findAll({
+  const limit = 6
+  let offset = 0
+  db.Poesia.findAndCountAll({
     where: {
       accepted: false
-    },
-    order: [['id', 'DESC']]
-  }).then(result => res.json(result))
+    }
+  }).then(result => {
+    const page = req.params.page
+    const pages = Math.ceil(result.count / limit)
+    offset = limit * (page - 1)
+
+    db.Poesia.findAll({
+      attributes: [
+        'id',
+        'title',
+        'text',
+        'author',
+        'image',
+        'website',
+        'email'
+      ],
+      limit: limit,
+      offset: offset,
+      where: {
+        accepted: false
+      },
+      order: [['id', 'DESC']]
+    }).then(poems =>
+      res.json({ results: poems, count: result.count, pages: pages })
+    )
+  })
 }
 
 module.exports.delete = (req, res) => {
