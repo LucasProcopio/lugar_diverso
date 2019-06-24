@@ -1,12 +1,7 @@
 const jwt = require('jsonwebtoken')
 const secret = process.env.SECRET_KEY
 const withAuth = function (req, res, next) {
-  const token =
-    req.body.lugardiverso ||
-    req.query.lugardiverso ||
-    req.headers['x-access-token'] ||
-    req.cookies.lugerdiverso
-  console.log('TOKEN: ', req.cookies)
+  const token = req.query.token
   if (!token) {
     res
       .status(401)
