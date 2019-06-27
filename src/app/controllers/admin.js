@@ -46,8 +46,8 @@ module.exports.update = (req, res) => {
   db.Admin.update(
     {
       email: req.body.email,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      // firstName: req.body.firstName,
+      // lastName: req.body.lastName,
       password: hash
     },
     {
@@ -92,16 +92,18 @@ module.exports.auth = (req, res) => {
             process.env.SECRET_KEY,
             { expiresIn: '1h' }
           )
-          // const adminData = {
-          //   email: result[0].dataValues.email,
-          //   firstname: result[0].dataValues.firstname,
-          //   lastname: result[0].dataValues.lastname,
-          //   token: token
-          // }
+
+          const adminData = {
+            uuid: result[0].dataValues.uuid,
+            email: result[0].dataValues.email,
+            token: token
+          }
+
+          console.log('ADM DATA: ', adminData)
           res
             .cookie('lugardiverso', token, { httpOnly: true })
             .status(200)
-            .json({ token: token })
+            .json(adminData)
         } else {
           res.status(401).json({
             errors: errMsg
@@ -120,18 +122,18 @@ module.exports.checkAuth = (req, res) => {
 }
 
 let fields = [
-  check('firstName')
-    .not()
-    .isEmpty()
-    .trim()
-    .escape()
-    .withMessage('O nome não pode ser em branco.'),
-  check('lastName')
-    .not()
-    .isEmpty()
-    .trim()
-    .escape()
-    .withMessage('O sobrenome não pode ser em branco.'),
+  // check('firstName')
+  //   .not()
+  //   .isEmpty()
+  //   .trim()
+  //   .escape()
+  //   .withMessage('O nome não pode ser em branco.'),
+  // check('lastName')
+  //   .not()
+  //   .isEmpty()
+  //   .trim()
+  //   .escape()
+  //   .withMessage('O sobrenome não pode ser em branco.'),
   check('email')
     .isEmail()
     .normalizeEmail()

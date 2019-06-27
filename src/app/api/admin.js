@@ -15,7 +15,7 @@ module.exports = routes => {
   /**
    * Update admin information
    */
-  routes.put('/admin/:id', withAuth, admin.updateValidation, admin.update)
+  routes.put('/admin/update', admin.updateValidation, admin.update)
 
   /**
    * Authentication
