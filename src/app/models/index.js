@@ -6,7 +6,24 @@ const config = require('../../../config/database.js')
 
 const db = {}
 
-const sequelize = new Sequelize(config)
+//const sequelize = new Sequelize(config)
+
+const sequelize = new Sequelize('lugardiverso', 'lucaspro', 'lu257331#', {
+  dialect: 'mysql',
+  host: 'ludiverso.c0kuuogvba6c.us-east-2.rds.amazonaws.com',
+  port: 3306
+});
+
+
+sequelize
+        .authenticate()
+        .then(() => {
+            console.log('Connection has been established successfully.');
+        })
+        .catch((err) => {
+            console.log('Unable to connect to the database:', err);
+        });
+
 
 fs.readdirSync(__dirname)
   .filter(file => {

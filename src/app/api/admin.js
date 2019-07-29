@@ -10,7 +10,7 @@ module.exports = routes => {
   /**
    * Create new admin record
    */
-  routes.post('/admin', withAuth, admin.validate, admin.create)
+  routes.post('/admin',/* withAuth,*/ admin.validate, admin.create)
 
   /**
    * Update admin information

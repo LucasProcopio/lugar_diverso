@@ -25,9 +25,13 @@ module.exports.create = (req, res) => {
     const imagePublicPath = `${__dirname}/../../../public/images/`
     webPath = `${req.protocol}://${req.headers.host}/images/${imageName}`
 
-    imageFile.mv(`${imagePublicPath}${imageName}`, function (err) {
+	  console.log('IMAGE PATH', imagePublicPath);
+	  console.log('Web Path', webPath);
+
+  const imgRes =  imageFile.mv(`${imagePublicPath}${imageName}`, function (err) {
       if (err) {
-        return res.status(500).send('IMAGE ERROR'.err)
+	console.log(err);
+        res.status(500).json({error: 'IMAGE ERROR: '+err})
       }
 
       ;(async () => {
@@ -37,6 +41,7 @@ module.exports.create = (req, res) => {
       })()
     })
   }
+
 
   db.Poesia.create({
     image: webPath,

@@ -24,7 +24,7 @@ class App {
     // Add headers
     this.express.use(function (req, res, next) {
       // Website you wish to allow to connect
-      res.setHeader('Access-Control-Allow-Origin', process.env.ALLOW_WEBSITE)
+      res.setHeader('Access-Control-Allow-Origin', process.env.ALLOW_WEBSITE || 'http://lugardiverso.surge.sh' )
 
       // Request methods you wish to allow
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
