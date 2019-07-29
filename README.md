@@ -24,9 +24,9 @@ The following endpoints are available:
 | `POST /about`               |                   Insert `about` data                    |                                        **history**, **join_desc**                                        |
 | `POST /about/:id`           |                      Update `about`                      |                                    **id**, **history**, **join_desc**                                    |
 | `DELETE /about/:id`         |                      Delete `about`                      |                                                  **id**                                                  |
-| `GET /admin/list`           |                   Get list of `admins`                   |                                                                                                          |
+| `GET /admin/list`           |                   Get list of `admins`                   |                     **JSON WEB Token**                                                                                     |
 | `POST /admin/`              |                    Create new `admin`                    |                          **email**, **firstname** , **lastname**, **password**                           |
-| `POST /admin/:id`           |                      Update `admin`                      |                     **email**, **firstname** , **lastname**, **password**, **UUID**                      |
+| `POST /admin/:id`           |                      Update `admin`                      |                     **email**, **firstname** , **lastname**, **password**, **UUID**,  **JSONWEB Token**                      |
 | `GET /accept/poems`         |          Get `poems` that are not accepted yet           |                                                                                                          |
 | `GET /poems/:page`          | Get `poems`, page quantity and the total number of poems |                                    **page** is the current page ex: 1                                    |
 | `POST /create/poem`         |                   Create a new `poem`                    |  **image**_(optional)_, **email**, **phone**, **website**_(optional)_, **author**, **title**, **text**   |
